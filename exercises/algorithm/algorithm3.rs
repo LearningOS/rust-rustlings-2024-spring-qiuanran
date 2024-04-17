@@ -3,10 +3,37 @@
 	This problem requires you to implement a sorting algorithm
 	you can use bubble sorting, insertion sorting, heap sorting, etc.
 */
-// I AM NOT DONE
 
-fn sort<T>(array: &mut [T]){
-	//TODO
+// quick sort
+fn sort<T: std::cmp::PartialOrd + Clone>(array: &mut [T]){
+    let n = array.len();
+    if n <= 1 {
+        return;
+    } 
+    let pivot = array.get(n / 2).unwrap().clone();
+    let mut i = 0;
+    let mut j = n - 1;
+
+    while i <= j {
+        while array[i] < pivot {
+            i += 1;
+        }
+        while array[j] > pivot {
+            j -= 1;
+        }
+        if i <= j {
+            array.swap(i, j);
+            i += 1;
+            j -= 1;
+        }
+    }
+
+    if j > 0 {
+        sort(&mut array[0..=j]);
+    }
+    if i < n {
+        sort(&mut array[i..]);
+    }
 }
 #[cfg(test)]
 mod tests {
